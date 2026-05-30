@@ -69,6 +69,8 @@ bitflags! {
         const PROCESS_ON_DENYLIST = 1 << 1;
         /// The process is the root manager application itself.
         const PROCESS_IS_MANAGER = 1 << 27;
+        /// The active root solution is ShiroSU.
+        const PROCESS_ROOT_IS_SSU = 1 << 31;
         /// The active root solution is APatch.
         const PROCESS_ROOT_IS_APATCH = 1 << 28;
         /// The active root solution is KernelSU.

@@ -106,7 +106,9 @@ std::vector<mount_info> check_zygote_traces(uint32_t info_flags) {
     const char* mount_source_name = nullptr;
     bool is_kernelsu = false;
 
-    if (info_flags & PROCESS_ROOT_IS_APATCH) {
+    if (info_flags & PROCESS_ROOT_IS_SSU) {
+        mount_source_name = "SSU";
+    } else if (info_flags & PROCESS_ROOT_IS_APATCH) {
         mount_source_name = "APatch";
     } else if (info_flags & PROCESS_ROOT_IS_KSU) {
         mount_source_name = "KSU";

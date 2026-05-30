@@ -158,6 +158,7 @@ impl MountNamespaceManager {
         let mut unmount_targets: Vec<MountInfo> = Vec::new();
 
         let root_source = match root_impl::get() {
+            root_impl::RootImpl::ShiroSU => Some("ShiroSU"),
             root_impl::RootImpl::APatch => Some("APatch"),
             root_impl::RootImpl::KernelSU => Some("KSU"),
             root_impl::RootImpl::Magisk => Some("magisk"),

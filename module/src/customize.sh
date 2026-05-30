@@ -8,7 +8,9 @@ MIN_KSUD_VERSION=@MIN_KSUD_VERSION@
 MAX_KSU_VERSION=@MAX_KSU_VERSION@
 MIN_MAGISK_VERSION=@MIN_MAGISK_VERSION@
 
-if [ "$BOOTMODE" ] && [ "$APATCH" ]; then
+if [ "$BOOTMODE" ] && [ "$SSU" ]; then
+  ui_print "- Installing from ShiroSU WebUI"
+elif [ "$BOOTMODE" ] && [ "$APATCH" ]; then
   ui_print "- Installing from APatch app"
   if ! [ "$APATCH_VER_CODE" ] || [ "$APATCH_VER_CODE" -lt "$MIN_APATCH_VERSION" ]; then
     ui_print "*********************************************************"

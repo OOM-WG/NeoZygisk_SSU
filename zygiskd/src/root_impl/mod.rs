@@ -20,6 +20,8 @@ pub enum RootImpl {
     TooOld,
     /// Multiple conflicting root solutions were detected.
     Multiple,
+    /// ShiroSU is the active root solution.
+    ShiroSU,
     /// APatch is the active root solution.
     APatch,
     /// KernelSU is the active root solution.
@@ -34,43 +36,7 @@ static ROOT_IMPL: OnceLock<RootImpl> = OnceLock::new();
 /// Probes the system to detect which root solution is active.
 ///
 /// This function should only be called once. `get()` handles this logic automatically.
-fn detect_root() -> RootImpl {
-    let apatch_version = apatch::detect_version();
-    let ksu_version = kernelsu::detect_version();
-    let magisk_version = magisk::detect_version();
-
-    let detections = [
-        apatch_version.is_some(),
-        ksu_version.is_some(),
-        magisk_version.is_some(),
-    ];
-    let detection_count = detections.iter().filter(|&&x| x).count();
-
-    if detection_count > 1 {
-        return RootImpl::Multiple;
-    }
-
-    if let Some(version) = apatch_version {
-        return match version {
-            apatch::Version::Supported => RootImpl::APatch,
-            apatch::Version::TooOld => RootImpl::TooOld,
-        };
-    }
-    if let Some(version) = ksu_version {
-        return match version {
-            kernelsu::Version::Supported => RootImpl::KernelSU,
-            kernelsu::Version::TooOld => RootImpl::TooOld,
-        };
-    }
-    if let Some(version) = magisk_version {
-        return match version {
-            magisk::Version::Supported => RootImpl::Magisk,
-            magisk::Version::TooOld => RootImpl::TooOld,
-        };
-    }
-
-    RootImpl::None
-}
+fn detect_root() -> RootImpl { RootImpl::ShiroSU }
 
 /// Performs the root detection and caches the result.
 /// This must be called once near startup before any other functions in this module are used.

@@ -170,7 +170,8 @@ fn initialize_globals() -> Result<()> {
 fn send_startup_info(modules: &[Module]) -> Result<()> {
     let mut msg = Vec::<u8>::new();
     let info = match root_impl::get() {
-        root_impl::RootImpl::APatch
+        root_impl::RootImpl::ShiroSU
+        | root_impl::RootImpl::APatch
         | root_impl::RootImpl::KernelSU
         | root_impl::RootImpl::Magisk => {
             msg.extend_from_slice(&constants::DAEMON_SET_INFO.to_le_bytes());
@@ -365,6 +366,7 @@ fn handle_get_process_flags(stream: &mut UnixStream) -> Result<()> {
     }
 
     match root_impl::get() {
+        root_impl::RootImpl::ShiroSU => flags |= ProcessFlags::PROCESS_ROOT_IS_SSU,
         root_impl::RootImpl::APatch => flags |= ProcessFlags::PROCESS_ROOT_IS_APATCH,
         root_impl::RootImpl::KernelSU => flags |= ProcessFlags::PROCESS_ROOT_IS_KSU,
         root_impl::RootImpl::Magisk => flags |= ProcessFlags::PROCESS_ROOT_IS_MAGISK,
